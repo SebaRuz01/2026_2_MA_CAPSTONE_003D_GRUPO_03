@@ -236,26 +236,26 @@ function Inventario() {
   const valorTotalInventario = repuestos.reduce((acc, r) => acc + (Number(r.precio) * Number(r.stock_actual)), 0)
 
   return (
-    <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex font-sans selection:bg-blue-100 dark:selection:bg-blue-900 selection:text-blue-900 dark:selection:text-blue-100 relative overflow-hidden transition-colors duration-300">
+    <div className="portal-shell portal-layout">
       
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-300/20 dark:bg-blue-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0 transition-colors duration-300"></div>
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-cyan-300/20 dark:bg-cyan-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0 transition-colors duration-300"></div>
 
       <Sidebar className="relative z-10" />
       
-      <main className="flex-1 p-6 lg:p-10 max-w-[1600px] mx-auto w-full relative z-10 overflow-y-auto h-screen">
+      <main className="portal-main">
         
         {/* ENCABEZADO */}
         <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
           <div>
-            <h1 className="font-extrabold text-3xl text-slate-800 dark:text-white tracking-tight transition-colors">Repuestos y stock</h1>
+            <h1 className="portal-title">Repuestos y stock</h1>
             <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 font-medium transition-colors">Control corporativo de inventario, existencias y compatibilidades de taller.</p>
           </div>
           <div className="flex items-center gap-3">
             {!bloqueado && repuestos.length > 0 && planTaller > 1 && (
               <button
                 onClick={exportarCSV}
-                className="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 transition-all text-sm font-bold px-4 py-3 rounded-2xl flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                className="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 transition-all text-sm font-bold px-4 py-3 rounded-lg flex items-center justify-center gap-2 shadow-sm cursor-pointer"
               >
                 <Download className="w-4 h-4 text-slate-400" />
                 Exportar CSV (Plan Empresas)
@@ -266,7 +266,7 @@ function Inventario() {
             {!bloqueado && esAdmin && (
               <button
                 onClick={() => setModalAbierto(true)}
-                className="bg-blue-600 hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/25 text-white text-sm font-bold px-6 py-3 rounded-2xl flex items-center justify-center gap-2 transform active:scale-95 cursor-pointer"
+                className="bg-blue-600 hover:bg-blue-700 transition-all shadow-lg shadow-black/20 text-white text-sm font-bold px-6 py-3 rounded-lg flex items-center justify-center gap-2 transform active:scale-95 cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
                 Nuevo repuesto
@@ -276,14 +276,14 @@ function Inventario() {
         </div>
 
         {cargando && (
-          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-500/20 shadow-sm transition-colors">
+          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-lg border border-blue-100 dark:border-blue-500/20 shadow-sm transition-colors">
             <div className="w-4 h-4 border-2 border-blue-500 dark:border-blue-400 border-t-transparent rounded-full animate-spin"></div>
             Cargando inventario...
           </div>
         )}
 
         {bloqueado && (
-          <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-3xl p-10 text-center max-w-md mx-auto mt-10 shadow-sm transition-colors">
+          <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-xl p-10 text-center max-w-md mx-auto mt-10 shadow-sm transition-colors">
             <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mx-auto mb-4 transition-colors">
               <Lock className="w-5 h-5 text-slate-400 dark:text-slate-500" />
             </div>
@@ -295,7 +295,7 @@ function Inventario() {
         )}
 
         {error && (
-          <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium rounded-2xl px-4 py-3 mb-6 shadow-sm transition-colors">
+          <div className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium rounded-lg px-4 py-3 mb-6 shadow-sm transition-colors">
             {error}
           </div>
         )}
@@ -304,8 +304,8 @@ function Inventario() {
           <>
             {/* TARJETAS KPI */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
+                <div className="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
                   <Layers className="w-6 h-6" />
                 </div>
                 <div>
@@ -314,8 +314,8 @@ function Inventario() {
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${alertasStock > 0 ? 'bg-red-50 dark:bg-red-500/10 text-red-500 dark:text-red-400' : 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'}`}>
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
+                <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${alertasStock > 0 ? 'bg-red-50 dark:bg-red-500/10 text-red-500 dark:text-red-400' : 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'}`}>
                   <AlertTriangle className="w-6 h-6" />
                 </div>
                 <div>
@@ -324,8 +324,8 @@ function Inventario() {
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
-                <div className="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-cyan-500/10 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
+                <div className="w-12 h-12 rounded-lg bg-cyan-50 dark:bg-cyan-500/10 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
                   <DollarSign className="w-6 h-6" />
                 </div>
                 <div>
@@ -346,26 +346,26 @@ function Inventario() {
                   value={busqueda}
                   onChange={handleBusquedaChange}
                   placeholder="Buscar por repuesto, modelo o compatibilidad..."
-                  className="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 rounded-2xl pl-11 pr-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium shadow-sm transition-colors"
+                  className="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 rounded-lg pl-11 pr-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium shadow-sm transition-colors"
                 />
               </div>
 
-              <div className="flex items-center gap-1 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-1.5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+              <div className="flex items-center gap-1 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-1.5 rounded-lg border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
                 <button
                   onClick={() => handleFiltroEstadoChange('todos')}
-                  className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${filtroEstado === 'todos' ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'}`}
+                  className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${filtroEstado === 'todos' ? 'bg-blue-600 text-white shadow-md shadow-black/20' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'}`}
                 >
                   Todos ({repuestos.length})
                 </button>
                 <button
                   onClick={() => handleFiltroEstadoChange('optimo')}
-                  className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${filtroEstado === 'optimo' ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'}`}
+                  className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${filtroEstado === 'optimo' ? 'bg-blue-600 text-white shadow-md shadow-black/20' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'}`}
                 >
                   Óptimos
                 </button>
                 <button
                   onClick={() => handleFiltroEstadoChange('alerta')}
-                  className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${filtroEstado === 'alerta' ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'}`}
+                  className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${filtroEstado === 'alerta' ? 'bg-blue-600 text-white shadow-md shadow-black/20' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'}`}
                 >
                   Bajo Stock ({alertasStock})
                 </button>
@@ -373,7 +373,7 @@ function Inventario() {
             </div>
 
             {/* TABLA PRINCIPAL */}
-            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] overflow-hidden shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors flex flex-col">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl overflow-hidden shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors flex flex-col">
               <div className="overflow-x-auto flex-1">
                 <table className="w-full text-left text-sm">
                   <thead>
@@ -509,7 +509,7 @@ function Inventario() {
         {/* MODAL NUEVO REPUESTO: Visible para Administradores */}
         {modalAbierto && esAdmin && (
           <div className="fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-center px-4 z-50 animate-in fade-in duration-200">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2rem] w-full max-w-lg p-8 shadow-2xl transition-colors">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl w-full max-w-lg p-8 shadow-2xl transition-colors">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="font-extrabold text-xl text-slate-800 dark:text-white tracking-tight">Nuevo repuesto</h2>
                 <button onClick={() => setModalAbierto(false)} className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 p-2 rounded-full transition-colors cursor-pointer">
@@ -526,7 +526,7 @@ function Inventario() {
                     onChange={handleChange}
                     placeholder="Ej. Pastillas de freno delanteras"
                     required
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                    className="portal-input"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
@@ -537,7 +537,7 @@ function Inventario() {
                       value={form.modelo}
                       onChange={handleChange}
                       placeholder="Ej. Hilux / Spark"
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                   <div>
@@ -548,7 +548,7 @@ function Inventario() {
                       value={form.anio}
                       onChange={handleChange}
                       placeholder="Ej. 2020"
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                 </div>
@@ -559,7 +559,7 @@ function Inventario() {
                     value={form.compatibilidades}
                     onChange={handleChange}
                     placeholder="Ej. Toyota Hilux 2.4, Fortuner (2016-2022)"
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                    className="portal-input"
                   />
                 </div>
                 <div className="grid grid-cols-3 gap-3">
@@ -572,7 +572,7 @@ function Inventario() {
                       value={form.stock_actual}
                       onChange={handleChange}
                       required
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                   <div>
@@ -584,7 +584,7 @@ function Inventario() {
                       value={form.stock_minimo}
                       onChange={handleChange}
                       required
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                   <div>
@@ -597,7 +597,7 @@ function Inventario() {
                       value={form.precio}
                       onChange={handleChange}
                       required
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                 </div>
@@ -613,7 +613,7 @@ function Inventario() {
                   <button
                     type="submit"
                     disabled={guardando}
-                    className="w-full bg-blue-600 hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/20 text-white font-bold py-3.5 rounded-xl disabled:opacity-60 text-sm cursor-pointer"
+                    className="portal-btn portal-btn-primary w-full"
                   >
                     {guardando ? 'Guardando...' : 'Crear repuesto'}
                   </button>
@@ -626,7 +626,7 @@ function Inventario() {
         {/* MODAL AÑADIR STOCK: Visible para Administradores */}
         {modalStockAbierto && repuestoSeleccionado && esAdmin && (
           <div className="fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-center px-4 z-50 animate-in fade-in duration-200">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2rem] w-full max-w-sm p-8 shadow-2xl transition-colors">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl w-full max-w-sm p-8 shadow-2xl transition-colors">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-extrabold text-lg text-slate-800 dark:text-white">Añadir stock</h2>
                 <button onClick={() => setModalStockAbierto(false)} className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1.5 rounded-full cursor-pointer">
@@ -662,7 +662,7 @@ function Inventario() {
                   <button
                     type="submit"
                     disabled={guardando}
-                    className="w-full bg-blue-600 hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/20 text-white font-bold py-3 rounded-xl disabled:opacity-60 text-sm cursor-pointer"
+                    className="portal-btn portal-btn-primary w-full"
                   >
                     {guardando ? 'Actualizando...' : 'Confirmar ingreso'}
                   </button>
@@ -675,7 +675,7 @@ function Inventario() {
         {/* MODAL CONFIRMAR ELIMINACIÓN: Visible para Administradores */}
         {repuestoAEliminar && esAdmin && (
           <div className="fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-center px-4 z-50 animate-in fade-in duration-200">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2rem] w-full max-w-sm p-8 shadow-2xl text-center transition-colors">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl w-full max-w-sm p-8 shadow-2xl text-center transition-colors">
               <div className="w-16 h-16 rounded-full bg-red-50 dark:bg-red-500/10 border-8 border-red-50 dark:border-red-500/10 flex items-center justify-center mx-auto mb-5 transition-colors">
                 <Trash2 className="w-8 h-8 text-red-500 dark:text-red-400" />
               </div>
@@ -711,3 +711,6 @@ function Inventario() {
 }
 
 export default Inventario
+
+
+

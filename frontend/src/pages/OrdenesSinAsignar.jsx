@@ -107,12 +107,12 @@ function OrdenesSinAsignar() {
   if (!esAdminTaller) return null
 
   return (
-    <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex font-sans transition-colors duration-300">
+    <div className="portal-shell portal-layout">
       <Sidebar />
-      <main className="flex-1 p-6 lg:p-10 max-w-[1400px] mx-auto w-full overflow-y-auto h-screen">
+      <main className="portal-main">
         
         <div className="mb-8">
-          <h1 className="font-extrabold text-3xl text-slate-800 dark:text-white tracking-tight">Órdenes sin asignar</h1>
+          <h1 className="portal-title">Órdenes sin asignar</h1>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Asigna técnicos responsables a los vehículos ingresados recientemente.</p>
         </div>
 
@@ -130,7 +130,7 @@ function OrdenesSinAsignar() {
         )}
 
         {!cargando && ordenes.length === 0 && (
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-12 text-center shadow-sm">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-12 text-center shadow-sm">
             <Wrench className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
             <h3 className="text-lg font-bold text-slate-700 dark:text-slate-200">¡Todo al día!</h3>
             <p className="text-slate-400 text-sm mt-1">No hay órdenes de trabajo pendientes de asignación de técnico.</p>
@@ -139,7 +139,7 @@ function OrdenesSinAsignar() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {ordenes.map((o) => (
-            <div key={o.id} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+            <div key={o.id} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-5 shadow-sm flex flex-col justify-between">
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <span className="bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-black px-2.5 py-1 rounded-md">
@@ -180,7 +180,7 @@ function OrdenesSinAsignar() {
                 <button
                   onClick={() => asignarTecnico(o.id)}
                   disabled={guardandoId === o.id}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+                  className="portal-btn portal-btn-primary w-full"
                 >
                   <UserCheck className="w-4 h-4" />
                   {guardandoId === o.id ? 'Asignando...' : 'Asignar técnico'}
@@ -196,3 +196,6 @@ function OrdenesSinAsignar() {
 }
 
 export default OrdenesSinAsignar
+
+
+

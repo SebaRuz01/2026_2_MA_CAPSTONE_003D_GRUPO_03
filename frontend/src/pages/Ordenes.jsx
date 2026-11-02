@@ -1,43 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import api from '../api/axios'
-import { X, Trash2, Plus, AlertCircle, Search, ChevronLeft, ChevronRight, Sparkles, Mail } from 'lucide-react'
+import { X, Trash2, Plus, AlertCircle, Search, Sparkles, Mail } from 'lucide-react'
 import { jwtDecode } from 'jwt-decode'
 import datosChile from '../utils/regiones.json'
 import vehiculosData from '../utils/vehiculos_chile.json'
-
-const ESTADOS = [
-  { key: 'recibido', titulo: 'Recibido', bgHeader: 'bg-slate-100 dark:bg-slate-800/60', textHeader: 'text-slate-600 dark:text-slate-300', borderHeader: 'border-slate-200 dark:border-slate-700/60' },
-  { key: 'diagnostico', titulo: 'Diagnóstico', bgHeader: 'bg-blue-50 dark:bg-blue-500/10', textHeader: 'text-blue-600 dark:text-blue-400', borderHeader: 'border-blue-200 dark:border-blue-500/20' },
-  { key: 'en_reparacion', titulo: 'En reparación', bgHeader: 'bg-teal-50 dark:bg-teal-500/10', textHeader: 'text-teal-600 dark:text-teal-400', borderHeader: 'border-teal-200 dark:border-teal-500/20' },
-  { key: 'listo', titulo: 'Listo para retiro', bgHeader: 'bg-emerald-50 dark:bg-emerald-500/10', textHeader: 'text-emerald-700 dark:text-emerald-400', borderHeader: 'border-emerald-200 dark:border-emerald-500/20' },
-]
-
-const validarRutChilenoSimple = (rut) => {
-  if (!rut) return false
-  const limpio = rut.trim().replace(/\./g, '').toUpperCase()
-  const regexRut = /^\d{7,8}-[0-9K]$/
-  return regexRut.test(limpio)
-}
-
-const validarPatenteChilena = (patente) => {
-  if (!patente) return false
-  const p = patente.toUpperCase().replace(/[^A-Z0-9]/g, '')
-  const regexAntigua = /^[A-Z]{4}[0-9]{2}$/
-  const regexNueva = /^[A-Z]{2}[0-9]{4}$/
-  const regexMoto = /^[A-Z]{3}[0-9]{2}$/
-  return regexAntigua.test(p) || regexNueva.test(p) || regexMoto.test(p)
-}
-
-const validarTelefonoChile = (tel) => {
-  const regexTel = /^[0-9]{8}$/
-  return regexTel.test(tel.trim())
-}
+import OrdenesHeader from '../features/ordenes/OrdenesHeader'
+import PaginacionColumna from '../features/ordenes/PaginacionColumna'
+import EliminarOrdenModal from '../features/ordenes/EliminarOrdenModal'
+import { crearPaginasIniciales, ESTADOS_ORDEN, formatearFechaCorta, validarPatenteChilena, validarRutChilenoSimple, validarTelefonoChile } from '../features/ordenes/ordenes.utils'
 
 function Ordenes() {
   const [ordenes, setOrdenes] = useState([])
   const [tecnicos, setTecnicos] = useState([])
-  const [tecnicosBloqueados, setTecnicosBloqueados] = useState(false)
+  const [tecnicosBloqueados] = useState(false)
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState('')
   const [modalAbierto, setModalAbierto] = useState(false)
@@ -48,7 +24,7 @@ function Ordenes() {
   const [ordenAEliminar, setOrdenAEliminar] = useState(null)
   const [eliminando, setEliminando] = useState(false)
   const [repuestos, setRepuestos] = useState([])
-  const [repuestosBloqueados, setRepuestosBloqueados] = useState(false)
+  const [repuestosBloqueados] = useState(false)
   const [ordenExpandida, setOrdenExpandida] = useState(null)
   const [repuestoSeleccionado, setRepuestoSeleccionado] = useState('')
   const [cantidadSeleccionada, setCantidadSeleccionada] = useState(1)
@@ -62,7 +38,7 @@ function Ordenes() {
   
   const [modelosDisponibles, setModelosDisponibles] = useState([])
   
-  const [paginaGlobal, setPaginaGlobal] = useState(1)
+  const [paginasPorEstado, setPaginasPorEstado] = useState(crearPaginasIniciales)
   const porPagina = 3
 
   const token = localStorage.getItem('access_token')
@@ -139,7 +115,7 @@ function Ordenes() {
     }
   }
 
-  const cargarDatos = () => {
+  const cargarDatos = useCallback(() => {
     const peticiones = [
       api.get('/ordenes/'),
       api.get('/repuestos/'),
@@ -169,11 +145,11 @@ function Ordenes() {
         }
       })
       .finally(() => setCargando(false))
-  }
+  }, [tallerIdToken])
 
   useEffect(() => {
     cargarDatos()
-  }, [])
+  }, [cargarDatos])
 
   const calcularEstimacionIA = async (ordenId, e) => {
     e.stopPropagation()
@@ -396,28 +372,6 @@ function Ordenes() {
     return codigoOT.includes(query) || o.id.toString() === query.replace('ot-', '')
   })
 
-  const totalPaginasGlobal = Math.ceil(ordenesFiltradas.length / porPagina) || 1
-  
-  useEffect(() => {
-    if (paginaGlobal > totalPaginasGlobal) {
-      setPaginaGlobal(Math.max(totalPaginasGlobal, 1))
-    }
-  }, [ordenesFiltradas.length, totalPaginasGlobal, paginaGlobal])
-
-  const inicioGlobal = (paginaGlobal - 1) * porPagina
-  const finGlobal = inicioGlobal + porPagina
-
-  const formatearFechaCorta = (fechaStr) => {
-    if (!fechaStr) return null
-    try {
-      const fecha = new Date(fechaStr)
-      if (isNaN(fecha.getTime())) return null
-      return fecha.toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit', year: 'numeric' })
-    } catch {
-      return null
-    }
-  }
-
   const tecnicosDisponiblesSelect = tecnicos.filter((t, index) => {
     if (planTaller === 1) {
       return index < 5
@@ -426,68 +380,36 @@ function Ordenes() {
   })
 
   return (
-    <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex font-sans selection:bg-blue-100 dark:selection:bg-blue-900 selection:text-blue-900 dark:selection:text-blue-100 relative overflow-hidden transition-colors duration-300">
+    <div className="portal-shell portal-layout">
       
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-300/20 dark:bg-blue-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0 transition-colors duration-300"></div>
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-cyan-300/20 dark:bg-cyan-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0 transition-colors duration-300"></div>
 
       <Sidebar className="relative z-10" />
       
-      <main className="flex-1 p-6 lg:p-10 max-w-[1600px] mx-auto w-full relative z-10 overflow-y-auto h-screen">
+      <main className="portal-main">
         
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
-          <div>
-            <h1 className="font-extrabold text-3xl text-slate-800 dark:text-white tracking-tight transition-colors">Órdenes de trabajo</h1>
-            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 font-medium transition-colors">
-              {puedeMover ? 'Gestiona y mueve las órdenes arrastrando las tarjetas.' : 'Visualiza las órdenes y gestiona los repuestos del vehículo.'}
-            </p>
-          </div>
-          <div className="flex items-center gap-3 flex-wrap">
-            <div className="relative">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
-                <Search className="w-4 h-4" />
-              </span>
-              <input
-                type="text"
-                value={busquedaOrden}
-                onChange={(e) => {
-                  setBusquedaOrden(e.target.value)
-                  setPaginaGlobal(1)
-                }}
-                placeholder="Buscar por código (Ej: OT-01)..."
-                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-full pl-10 pr-4 py-2 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium shadow-sm transition-colors w-64"
-              />
-              {busquedaOrden && (
-                <button 
-                  onClick={() => setBusquedaOrden('')}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-bold"
-                >
-                  Limpiar
-                </button>
-              )}
-            </div>
-
-            {esAdminTaller && (
-              <button
-                onClick={() => setModalAbierto(true)}
-                className="bg-blue-600 hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20 text-white text-sm font-bold px-5 py-2.5 rounded-full flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <Plus className="w-4 h-4" />
-                Nueva orden
-              </button>
-            )}
-          </div>
-        </div>
+        <OrdenesHeader
+          puedeMover={puedeMover}
+          busqueda={busquedaOrden}
+          onBusquedaChange={(valor) => {
+            setBusquedaOrden(valor)
+            setPaginasPorEstado(crearPaginasIniciales())
+          }}
+          onLimpiar={() => setBusquedaOrden('')}
+          puedeCrear={esAdminTaller}
+          onCrear={() => setModalAbierto(true)}
+        />
 
         {cargando && (
-          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-xl border border-blue-100 dark:border-blue-500/20 shadow-sm transition-colors">
+          <div className="portal-alert portal-alert-info">
             <div className="w-4 h-4 border-2 border-blue-500 dark:border-blue-400 border-t-transparent rounded-full animate-spin"></div>
             Cargando órdenes...
           </div>
         )}
         
         {error && (
-          <div className="flex items-center gap-2 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium rounded-xl px-4 py-3 mb-6 shadow-sm transition-colors">
+          <div className="portal-alert portal-alert-error">
             <AlertCircle className="w-4 h-4" />
             {error}
           </div>
@@ -495,11 +417,14 @@ function Ordenes() {
 
         {!cargando && !error && (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-start pb-6">
-              {ESTADOS.map((col) => {
+            <div className="portal-kanban-grid">
+              {ESTADOS_ORDEN.map((col) => {
                 const ordenesCol = ordenesFiltradas.filter((o) => o.estado === col.key)
                 const esDestino = columnaSobre === col.key && puedeMover
-                const ordenesPaginadas = ordenesCol.slice(inicioGlobal, finGlobal)
+                const totalPaginasColumna = Math.max(1, Math.ceil(ordenesCol.length / porPagina))
+                const paginaColumna = Math.min(paginasPorEstado[col.key] || 1, totalPaginasColumna)
+                const inicioColumna = (paginaColumna - 1) * porPagina
+                const ordenesPaginadas = ordenesCol.slice(inicioColumna, inicioColumna + porPagina)
 
                 return (
                   <div
@@ -507,23 +432,23 @@ function Ordenes() {
                     onDragOver={(e) => { if (puedeMover) handleDragOver(e, col.key) }}
                     onDragLeave={handleDragLeave}
                     onDrop={() => { if (puedeMover) handleDrop(col.key) }}
-                    className={`bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border rounded-3xl p-4 flex flex-col transition-all duration-200 ${
+                    className={`portal-kanban-column ${
                       esDestino 
-                        ? 'border-blue-400 dark:border-blue-500 bg-blue-50/50 dark:bg-blue-900/20 shadow-lg shadow-blue-100 dark:shadow-none' 
-                        : 'border-slate-200/80 dark:border-slate-800/80 shadow-[0_4px_20px_rgb(0,0,0,0.02)] dark:shadow-none'
+                        ? 'is-target' 
+                        : ''
                     }`}
                   >
-                    <div className={`flex items-center justify-between mb-3 px-3 py-2 rounded-xl border shrink-0 transition-colors ${col.bgHeader} ${col.borderHeader}`}>
+                    <div className={`portal-kanban-header ${col.bgHeader} ${col.borderHeader}`}>
                       <span className={`text-xs font-bold uppercase tracking-wider transition-colors ${col.textHeader}`}>{col.titulo}</span>
                       <span className={`text-xs font-black px-2 py-0.5 rounded-full bg-white/60 dark:bg-slate-900/60 transition-colors ${col.textHeader}`}>
                         {ordenesCol.length}
                       </span>
                     </div>
 
-                    <div className="space-y-2.5 min-h-[460px] flex flex-col">
+                    <div className="portal-order-list">
                       {ordenesCol.length === 0 ? (
-                        <div className="bg-white/40 dark:bg-slate-800/40 border-2 border-dashed border-slate-300 dark:border-slate-700/60 rounded-2xl p-6 text-center h-[444px] flex items-center justify-center transition-colors">
-                          <p className="text-slate-400 dark:text-slate-500 text-xs font-medium transition-colors">No hay órdenes aquí</p>
+                        <div className="portal-empty">
+                          <p>No hay órdenes aquí</p>
                         </div>
                       ) : (
                         ordenesPaginadas.map((o) => (
@@ -537,7 +462,7 @@ function Ordenes() {
                               }
                               handleDragStart(o)
                             }}
-                            className={`bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm transition-all group w-full flex flex-col ${puedeMover ? 'hover:shadow-md hover:border-blue-300 dark:hover:border-blue-500/50 cursor-grab active:cursor-grabbing' : 'cursor-default'} rounded-2xl p-3.5`}
+                            className={`portal-order-card group ${puedeMover ? 'is-draggable' : ''}`}
                           >
                             <div className="flex justify-between items-start mb-2">
                               <span className="bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 text-[10px] font-black px-2 py-0.5 rounded-md tracking-wider transition-colors">
@@ -600,7 +525,7 @@ function Ordenes() {
                                       <button
                                         onClick={(e) => enviarCorreoCliente(o, e)}
                                         disabled={enviandoCorreo === o.id}
-                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-extrabold py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 shadow-sm transition-all cursor-pointer"
+                                        className="portal-btn portal-btn-primary portal-btn-compact w-full"
                                       >
                                         <Mail className="w-3 h-3" /> {enviandoCorreo === o.id ? 'Enviando...' : 'Notificar al cliente (Email)'}
                                       </button>
@@ -712,41 +637,26 @@ function Ordenes() {
                           </div>
                         ))
                       )}
+
+                      <PaginacionColumna
+                        titulo={col.titulo}
+                        pagina={paginaColumna}
+                        total={totalPaginasColumna}
+                        onAnterior={() => setPaginasPorEstado((actual) => ({ ...actual, [col.key]: Math.max(paginaColumna - 1, 1) }))}
+                        onSiguiente={() => setPaginasPorEstado((actual) => ({ ...actual, [col.key]: Math.min(paginaColumna + 1, totalPaginasColumna) }))}
+                      />
                     </div>
                   </div>
                 )
               })}
             </div>
 
-            {totalPaginasGlobal > 1 && (
-              <div className="flex items-center justify-center gap-4 py-5 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 rounded-2xl shadow-sm mb-10">
-                <button
-                  onClick={() => setPaginaGlobal((p) => Math.max(p - 1, 1))}
-                  disabled={paginaGlobal === 1}
-                  className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-xl text-xs font-bold disabled:opacity-30 transition-colors cursor-pointer"
-                >
-                  <ChevronLeft className="w-4 h-4" /> Anterior
-                </button>
-                
-                <span className="text-xs font-bold text-slate-600 dark:text-slate-300">
-                  Página {paginaGlobal} de {totalPaginasGlobal}
-                </span>
-
-                <button
-                  onClick={() => setPaginaGlobal((p) => Math.min(p + 1, totalPaginasGlobal))}
-                  disabled={paginaGlobal === totalPaginasGlobal}
-                  className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-xl text-xs font-bold disabled:opacity-30 transition-colors cursor-pointer"
-                >
-                  Siguiente <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            )}
           </>
         )}
 
         {modalAbierto && esAdminTaller && (
-          <div className="fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center px-4 z-50 overflow-y-auto py-6">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-lg p-8 shadow-2xl transition-colors my-auto">
+          <div className="portal-modal-overlay">
+            <div className="portal-modal">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="font-extrabold text-xl text-slate-800 dark:text-white transition-colors">Nueva orden de trabajo</h2>
@@ -760,31 +670,31 @@ function Ordenes() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">Nombre del cliente</label>
-                    <input name="cliente_nombre" value={form.cliente_nombre} onChange={handleChange} placeholder="Ej. Juan Pérez" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors" />
+                    <label className="portal-label">Nombre del cliente</label>
+                    <input name="cliente_nombre" value={form.cliente_nombre} onChange={handleChange} placeholder="Ej. Juan Pérez" required className="portal-input" />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">RUT (Ej: 12345678-9)</label>
-                    <input name="cliente_rut" value={form.cliente_rut} onChange={handleChange} placeholder="12345678-9" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors" />
+                    <label className="portal-label">RUT (Ej: 12345678-9)</label>
+                    <input name="cliente_rut" value={form.cliente_rut} onChange={handleChange} placeholder="12345678-9" required className="portal-input" />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">Correo electrónico</label>
-                  <input type="email" name="cliente_email" value={form.cliente_email} onChange={handleChange} placeholder="cliente@correo.cl" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors" />
+                  <label className="portal-label">Correo electrónico</label>
+                  <input type="email" name="cliente_email" value={form.cliente_email} onChange={handleChange} placeholder="cliente@correo.cl" required className="portal-input" />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">Teléfono (Chile)</label>
+                    <label className="portal-label">Teléfono (Chile)</label>
                     <div className="flex items-center w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-3 focus-within:border-blue-500 transition-colors">
                       <span className="text-slate-400 dark:text-slate-500 text-sm font-bold mr-1 shrink-0 select-none">+56 9</span>
                       <input name="cliente_telefono" maxLength="8" value={form.cliente_telefono} onChange={handleChange} placeholder="12345678" required className="w-full bg-transparent text-slate-900 dark:text-white text-sm focus:outline-none font-medium" />
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">Región</label>
-                    <select value={form.cliente_region || ''} onChange={handleRegionChange} required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors">
+                    <label className="portal-label">Región</label>
+                    <select value={form.cliente_region || ''} onChange={handleRegionChange} required className="portal-input">
                       <option value="">Selecciona región...</option>
                       {datosChile.regiones.map((r) => (<option key={r.region} value={r.region}>{r.region}</option>))}
                     </select>
@@ -793,7 +703,7 @@ function Ordenes() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">Comuna</label>
+                    <label className="portal-label">Comuna</label>
                     <select name="cliente_comuna" value={form.cliente_comuna || ''} onChange={handleChange} disabled={!form.cliente_region} required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
                       <option value="">Selecciona comuna...</option>
                       {comunasDisponibles.map((c) => (<option key={c} value={c}>{c}</option>))}
@@ -813,12 +723,12 @@ function Ordenes() {
 
                 <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
                   <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">Marca</label>
+                    <label className="portal-label">Marca</label>
                     <select 
                       name="marca"
                       value={form.marca} 
                       onChange={handleMarcaChange} 
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                       required
                     >
                       <option value="">Selecciona marca...</option>
@@ -828,7 +738,7 @@ function Ordenes() {
                     </select>
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">Modelo</label>
+                    <label className="portal-label">Modelo</label>
                     <select 
                       name="modelo" 
                       value={form.modelo} 
@@ -847,17 +757,17 @@ function Ordenes() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">Patente (Chile)</label>
+                    <label className="portal-label">Patente (Chile)</label>
                     <input name="vehiculo_patente" value={form.vehiculo_patente} onChange={handleChange} placeholder="Ej. ABCD12 o AB1234" required className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium uppercase transition-colors" />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">Año</label>
-                    <input type="number" name="vehiculo_anio" value={form.vehiculo_anio} onChange={handleChange} placeholder="Ej. 2021" min="1950" max="2026" className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors" />
+                    <label className="portal-label">Año</label>
+                    <input type="number" name="vehiculo_anio" value={form.vehiculo_anio} onChange={handleChange} placeholder="Ej. 2021" min="1950" max="2026" className="portal-input" />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">Descripción del problema</label>
+                  <label className="portal-label">Descripción del problema</label>
                   <textarea name="descripcion_problema" value={form.descripcion_problema} onChange={handleChange} rows={2} placeholder="Detalle de la falla..." className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium resize-none transition-colors" />
                 </div>
 
@@ -867,7 +777,7 @@ function Ordenes() {
                   </div>
                 ) : (
                   <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1.5 transition-colors">
+                    <label className="portal-label">
                       Técnico asignado (opcional) {planTaller === 1 && '— (Máx. 5 habilitados)'}
                     </label>
                     <select name="tecnico" value={form.tecnico} onChange={handleChange} className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium appearance-none transition-colors">
@@ -884,7 +794,7 @@ function Ordenes() {
                 )}
 
                 <div className="pt-2">
-                  <button type="submit" disabled={guardando} className="w-full bg-blue-600 hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/20 text-white font-bold py-3.5 rounded-xl disabled:opacity-60 text-sm cursor-pointer">
+                  <button type="submit" disabled={guardando} className="portal-btn portal-btn-primary w-full">
                     {guardando ? 'Guardando...' : 'Crear orden'}
                   </button>
                 </div>
@@ -893,41 +803,18 @@ function Ordenes() {
           </div>
         )}
 
-        {ordenAEliminar && esAdminTaller && (
-          <div className="fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center px-4 z-50">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-sm p-8 shadow-2xl text-center transition-colors">
-              <div className="w-16 h-16 rounded-full bg-red-50 dark:bg-red-500/10 border-8 border-red-50 dark:border-red-500/10 flex items-center justify-center mx-auto mb-5 transition-colors">
-                <Trash2 className="w-8 h-8 text-red-500 dark:text-red-400" />
-              </div>
-              <h2 className="font-extrabold text-xl text-slate-800 dark:text-white mb-2 transition-colors">¿Eliminar esta orden?</h2>
-              <p className="text-slate-600 dark:text-slate-300 text-sm font-medium mb-1 transition-colors">
-                OT-{ordenAEliminar.id.toString().padStart(3, '0')} — {ordenAEliminar.equipo}
-              </p>
-              <p className="text-slate-400 dark:text-slate-500 text-xs mb-8 transition-colors">
-                Esta acción es permanente y no se puede deshacer.
-              </p>
-              
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setOrdenAEliminar(null)}
-                  className="flex-1 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors py-3 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 cursor-pointer"
-                >
-                  Cancelar
-                </button>
-                <button
-                  onClick={confirmarEliminar}
-                  disabled={eliminando}
-                  className="flex-1 bg-red-500 hover:bg-red-600 transition-colors shadow-md shadow-red-500/20 text-white py-3 rounded-xl text-sm font-bold disabled:opacity-60 cursor-pointer"
-                >
-                  {eliminando ? 'Eliminando...' : 'Sí, eliminar'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <EliminarOrdenModal
+          orden={ordenAEliminar}
+          visible={Boolean(ordenAEliminar && esAdminTaller)}
+          eliminando={eliminando}
+          onCancelar={() => setOrdenAEliminar(null)}
+          onConfirmar={confirmarEliminar}
+        />
       </main>
     </div>
   )
 }
 
 export default Ordenes
+
+

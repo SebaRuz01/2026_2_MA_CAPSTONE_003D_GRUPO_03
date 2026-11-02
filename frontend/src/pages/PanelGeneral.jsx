@@ -78,19 +78,19 @@ function PanelGeneral() {
   }
 
   return (
-    <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex font-sans selection:bg-blue-100 dark:selection:bg-blue-900 selection:text-blue-900 dark:selection:text-blue-100 relative overflow-hidden transition-colors duration-300">
+    <div className="portal-shell portal-layout">
       
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-300/20 dark:bg-blue-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0 transition-colors duration-300"></div>
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-cyan-300/20 dark:bg-cyan-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0 transition-colors duration-300"></div>
 
       <Sidebar className="relative z-10" />
       
-      <main className="flex-1 p-6 lg:p-10 max-w-[1400px] mx-auto w-full relative z-10 overflow-y-auto h-screen">
+      <main className="portal-main">
         
         {/* ENCABEZADO */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="font-bold text-3xl text-slate-800 dark:text-white tracking-tight transition-colors">Panel General</h1>
+            <h1 className="portal-title">Panel General</h1>
             <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 transition-colors">Resumen en vivo y métricas clave de tu taller mecánico</p>
           </div>
           <div className="flex items-center gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 rounded-full shadow-sm transition-colors">
@@ -117,7 +117,7 @@ function PanelGeneral() {
           
           <div 
             onClick={() => { setFiltroEstado('activas'); setPaginaActual(1); }}
-            className={`bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all cursor-pointer group ${filtroEstado === 'activas' ? 'border-blue-500 dark:border-blue-500 ring-2 ring-blue-500/20' : 'border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700'}`}
+            className={`bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border rounded-lg p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all cursor-pointer group ${filtroEstado === 'activas' ? 'border-blue-500 dark:border-blue-500 ring-2 ring-blue-500/20' : 'border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700'}`}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-500 dark:text-blue-400 transition-colors">
@@ -131,7 +131,7 @@ function PanelGeneral() {
           
           <div 
             onClick={() => { setFiltroEstado('todas'); setPaginaActual(1); }}
-            className={`bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all cursor-pointer group ${filtroEstado === 'todas' ? 'border-slate-400 dark:border-slate-600 ring-2 ring-slate-500/20' : 'border-slate-200 dark:border-slate-800 hover:border-slate-400'}`}
+            className={`bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border rounded-lg p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all cursor-pointer group ${filtroEstado === 'todas' ? 'border-slate-400 dark:border-slate-600 ring-2 ring-slate-500/20' : 'border-slate-200 dark:border-slate-800 hover:border-slate-400'}`}
           >
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors">
@@ -145,7 +145,7 @@ function PanelGeneral() {
           
           <div 
             onClick={() => navigate('/inventario')}
-            className="bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 hover:border-red-300 dark:hover:border-red-700 rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all cursor-pointer group"
+            className="bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 hover:border-red-300 dark:hover:border-red-700 rounded-lg p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all cursor-pointer group"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-400 dark:text-red-400 transition-colors">
@@ -165,7 +165,7 @@ function PanelGeneral() {
         <div className="grid lg:grid-cols-[1fr_350px] gap-6 pb-10">
           
           {/* TABLA DE ÓRDENES CON FILTROS, BUSCADOR Y PAGINACIÓN */}
-          <div className="bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-colors duration-300">
+          <div className="bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-lg flex flex-col overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-colors duration-300">
             
             <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-800/60 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-transparent transition-colors">
               <div>
@@ -283,7 +283,7 @@ function PanelGeneral() {
           {/* WIDGET DE ALERTAS DE INVENTARIO */}
           <div 
             onClick={() => navigate('/inventario')}
-            className="bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600 rounded-2xl p-6 flex flex-col shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all cursor-pointer group"
+            className="bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600 rounded-lg p-6 flex flex-col shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none transition-all cursor-pointer group"
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-bold text-slate-800 dark:text-white transition-colors">Alertas de Stock</h2>
@@ -330,3 +330,5 @@ function PanelGeneral() {
 }
 
 export default PanelGeneral
+
+

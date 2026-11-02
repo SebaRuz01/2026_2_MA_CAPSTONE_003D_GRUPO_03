@@ -129,14 +129,14 @@ function SuperAdmin() {
   const totalModulosActivosGlobal = contratados.filter(c => c.activo).length
 
   return (
-    <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex font-sans selection:bg-blue-100 dark:selection:bg-blue-900 selection:text-blue-900 dark:selection:text-blue-100 relative overflow-hidden transition-colors duration-300">
+    <div className="portal-shell portal-layout">
       
       {/* Fondo Decorativo */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-300/20 dark:bg-blue-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0"></div>
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-cyan-300/20 dark:bg-cyan-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0"></div>
 
       {/* SIDEBAR SUPER-ADMIN */}
-      <aside className="w-64 shrink-0 border-r border-slate-200 dark:border-slate-800/60 min-h-screen p-6 hidden lg:flex flex-col bg-white/90 dark:bg-[#0b0f19]/95 backdrop-blur-xl z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-colors">
+      <aside className="w-64 shrink-0 border-r border-slate-200 dark:border-slate-800/60 min-h-screen p-6 hidden lg:flex flex-col bg-white/90 dark:bg-[#101513]/95 backdrop-blur-xl z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-colors">
         <Link to="/" className="flex items-center gap-3 mb-2 pl-2">
           <img src={logoIcono} alt="SIGMA" className="h-8 w-auto" />
           <span className="font-extrabold text-xl text-slate-800 dark:text-white tracking-tight">SIGMA</span>
@@ -183,17 +183,17 @@ function SuperAdmin() {
         </div>
       </aside>
 
-      <main className="flex-1 p-6 lg:p-10 max-w-[1600px] mx-auto w-full relative z-10 overflow-y-auto h-screen">
+      <main className="portal-main">
         
         {/* ENCABEZADO */}
         <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
           <div>
             <div className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Gestión Global de Clientes</div>
-            <h1 className="font-extrabold text-3xl text-slate-800 dark:text-white tracking-tight">Panel de Control General</h1>
+            <h1 className="portal-title">Panel de Control General</h1>
           </div>
           <Link
             to="/super-admin/nuevo-taller"
-            className="bg-blue-600 hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/25 text-white text-sm font-bold px-6 py-3 rounded-2xl flex items-center justify-center gap-2 transform active:scale-95"
+            className="bg-blue-600 hover:bg-blue-700 transition-all shadow-lg shadow-black/20 text-white text-sm font-bold px-6 py-3 rounded-lg flex items-center justify-center gap-2 transform active:scale-95"
           >
             <Plus className="w-4 h-4" />
             Nuevo taller
@@ -201,7 +201,7 @@ function SuperAdmin() {
         </div>
 
         {cargando && (
-          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-500/20 shadow-sm max-w-sm">
+          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-lg border border-blue-100 dark:border-blue-500/20 shadow-sm max-w-sm">
             <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             Cargando talleres y licencias...
           </div>
@@ -211,8 +211,8 @@ function SuperAdmin() {
           <>
             {/* TARJETAS KPI SUPERIORES */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
+                <div className="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
                   <Building2 className="w-6 h-6" />
                 </div>
                 <div>
@@ -221,8 +221,8 @@ function SuperAdmin() {
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
+                <div className="w-12 h-12 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <div>
@@ -231,8 +231,8 @@ function SuperAdmin() {
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
-                <div className="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-cyan-500/10 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.02)] flex items-center gap-4 transition-colors">
+                <div className="w-12 h-12 rounded-lg bg-cyan-50 dark:bg-cyan-500/10 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
                   <Layers className="w-6 h-6" />
                 </div>
                 <div>
@@ -245,7 +245,7 @@ function SuperAdmin() {
             <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6 items-start">
               
               {/* TABLA DE TALLERES */}
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] overflow-hidden shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors flex flex-col">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl overflow-hidden shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors flex flex-col">
                 
                 {/* Barra superior de búsqueda y pestañas rápidas */}
                 <div className="px-6 py-5 border-b border-slate-100 dark:border-slate-800/60 flex items-center justify-between gap-4 flex-wrap bg-white/50 dark:bg-transparent">
@@ -410,7 +410,7 @@ function SuperAdmin() {
               </div>
 
               {/* GESTOR DE MÓDULOS DEL TALLER SELECCIONADO */}
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] p-6 shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl p-6 shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors">
                 <div className="flex items-center justify-between mb-1">
                   <div className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
                     <SlidersHorizontal className="w-3.5 h-3.5" /> Módulos Contratados
@@ -436,7 +436,7 @@ function SuperAdmin() {
                       )
                       const activo = contrato?.activo || false
                       return (
-                        <div key={m.id} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/80 transition-colors">
+                        <div key={m.id} className="flex items-center justify-between p-4 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/80 transition-colors">
                           <div className="pr-4">
                             <div className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
                               {m.nombre}
@@ -474,3 +474,5 @@ function SuperAdmin() {
 }
 
 export default SuperAdmin
+
+

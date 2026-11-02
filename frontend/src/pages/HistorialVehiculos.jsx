@@ -72,25 +72,25 @@ function HistorialVehiculos() {
   }
 
   return (
-    <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex font-sans selection:bg-blue-100 dark:selection:bg-blue-900 selection:text-blue-900 dark:selection:text-blue-100 relative overflow-hidden transition-colors duration-300">
+    <div className="portal-shell portal-layout">
       
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-300/20 dark:bg-blue-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0"></div>
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-cyan-300/20 dark:bg-cyan-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0"></div>
 
       <Sidebar className="relative z-10" />
 
-      <main className="flex-1 p-6 lg:p-10 max-w-[1600px] mx-auto w-full relative z-10 overflow-y-auto h-screen">
+      <main className="portal-main">
         
         <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
           <div>
             <div className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Archivo General</div>
-            <h1 className="font-extrabold text-3xl text-slate-800 dark:text-white tracking-tight">Historial de Vehículos Atendidos</h1>
+            <h1 className="portal-title">Historial de Vehículos Atendidos</h1>
           </div>
           
           {ordenesEntregadas.length > 0 && (
             <button
               onClick={exportarCSV}
-              className="bg-emerald-600 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 text-white text-sm font-bold px-5 py-3 rounded-2xl flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+              className="bg-emerald-600 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 text-white text-sm font-bold px-5 py-3 rounded-lg flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
               <FileSpreadsheet className="w-4 h-4" />
               Exportar Historial (CSV)
@@ -99,7 +99,7 @@ function HistorialVehiculos() {
         </div>
 
         {cargando && (
-          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-500/20 shadow-sm max-w-sm">
+          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-lg border border-blue-100 dark:border-blue-500/20 shadow-sm max-w-sm">
             <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             Cargando archivo de vehículos...
           </div>
@@ -116,11 +116,11 @@ function HistorialVehiculos() {
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
                 placeholder="Buscar por código OT, patente, modelo o cliente..."
-                className="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl pl-11 pr-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-colors"
+                className="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-lg pl-11 pr-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-colors"
               />
             </div>
 
-            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] overflow-hidden shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors">
+            <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl overflow-hidden shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
                   <thead>
@@ -183,7 +183,7 @@ function HistorialVehiculos() {
                               <td colSpan={5} className="px-8 py-6">
                                 <div className="grid md:grid-cols-3 gap-6">
                                   
-                                  <div className="bg-white dark:bg-slate-800/80 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm space-y-3">
+                                  <div className="bg-white dark:bg-slate-800/80 p-5 rounded-lg border border-slate-200/80 dark:border-slate-700 shadow-sm space-y-3">
                                     <div className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
                                       <Calendar className="w-4 h-4" /> Fechas de Operación
                                     </div>
@@ -197,7 +197,7 @@ function HistorialVehiculos() {
                                     </div>
                                   </div>
 
-                                  <div className="bg-white dark:bg-slate-800/80 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm space-y-2">
+                                  <div className="bg-white dark:bg-slate-800/80 p-5 rounded-lg border border-slate-200/80 dark:border-slate-700 shadow-sm space-y-2">
                                     <div className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                                       <Wrench className="w-4 h-4" /> Falla Diagnóstica
                                     </div>
@@ -206,7 +206,7 @@ function HistorialVehiculos() {
                                     </p>
                                   </div>
 
-                                  <div className="bg-white dark:bg-slate-800/80 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm space-y-2">
+                                  <div className="bg-white dark:bg-slate-800/80 p-5 rounded-lg border border-slate-200/80 dark:border-slate-700 shadow-sm space-y-2">
                                     <div className="text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider flex items-center gap-1.5">
                                       <Package className="w-4 h-4" /> Repuestos Consumidos ({o.repuestos_usados?.length || 0})
                                     </div>
@@ -243,3 +243,5 @@ function HistorialVehiculos() {
 }
 
 export default HistorialVehiculos
+
+

@@ -66,8 +66,8 @@ function Seguimiento() {
 
   if (error) {
     return (
-      <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center p-6 transition-colors duration-300">
-        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-[2rem] p-8 max-w-md w-full text-center shadow-2xl">
+      <div className="portal-shell bg-[#eeede8] dark:bg-[#101513] text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center p-6 transition-colors duration-300">
+        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-xl p-8 max-w-md w-full text-center shadow-2xl">
           <div className="w-16 h-16 bg-red-50 dark:bg-red-500/10 text-red-500 dark:text-red-400 rounded-full flex items-center justify-center mx-auto mb-5 border-8 border-red-50/50 dark:border-red-500/5">
             <AlertCircle className="w-8 h-8" />
           </div>
@@ -83,8 +83,8 @@ function Seguimiento() {
 
   if (!orden) {
     return (
-      <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center transition-colors duration-300">
-        <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-bold bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-6 py-4 rounded-2xl shadow-lg border border-slate-200/80 dark:border-slate-800">
+      <div className="portal-shell bg-[#eeede8] dark:bg-[#101513] text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center transition-colors duration-300">
+        <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-bold bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-6 py-4 rounded-lg shadow-lg border border-slate-200/80 dark:border-slate-800">
           <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
           Buscando información de tu vehículo...
         </div>
@@ -96,7 +96,7 @@ function Seguimiento() {
   const info = ESTADOS_INFO[estadoKey] || ESTADOS_INFO.recibido
 
   return (
-    <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center px-6 py-12 relative overflow-hidden transition-colors duration-300">
+    <div className="portal-shell bg-[#eeede8] dark:bg-[#101513] text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center px-6 py-12 relative overflow-hidden transition-colors duration-300">
       
       {/* Fondo Decorativo Luminoso */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-300/20 dark:bg-blue-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0"></div>
@@ -120,7 +120,7 @@ function Seguimiento() {
       <div className="w-full max-w-md relative z-10">
 
         <div className="flex flex-col items-center mb-6 text-center">
-          <div className="w-14 h-14 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-800 flex items-center justify-center mb-3">
+          <div className="w-14 h-14 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-lg shadow-sm border border-slate-200/80 dark:border-slate-800 flex items-center justify-center mb-3">
             <img src={logoIcono} alt="SIGMA" className="h-8 w-auto" />
           </div>
           <h2 className="font-extrabold text-2xl text-slate-800 dark:text-white tracking-tight">Seguimiento en Línea</h2>
@@ -128,7 +128,7 @@ function Seguimiento() {
         </div>
 
         {/* Tarjeta Principal de Seguimiento */}
-        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] dark:shadow-none transition-colors">
+        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] dark:shadow-none transition-colors">
           
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Código de Seguimiento</span>
@@ -140,7 +140,7 @@ function Seguimiento() {
           <h1 className="font-extrabold text-2xl text-slate-800 dark:text-white mb-6">{orden.equipo}</h1>
 
           {/* Barra de Progreso Avanzada */}
-          <div className="mb-8 bg-slate-50 dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-100 dark:border-slate-800/80">
+          <div className="mb-8 bg-slate-50 dark:bg-slate-800/40 p-5 rounded-lg border border-slate-100 dark:border-slate-800/80">
             <div className="flex justify-between text-xs font-bold mb-3 items-center">
               <span className={`flex items-center gap-1.5 ${info.color}`}>
                 <span className={`w-2 h-2 rounded-full ${info.bg} animate-pulse`}></span>
@@ -190,3 +190,4 @@ function Seguimiento() {
 }
 
 export default Seguimiento
+

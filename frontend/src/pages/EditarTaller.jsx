@@ -78,15 +78,15 @@ function EditarTaller() {
   }
 
   if (cargando) {
-    return <div className="bg-base-950 text-ink min-h-screen flex items-center justify-center">Cargando...</div>
+    return <div className="portal-shell bg-base-950 text-ink min-h-screen flex items-center justify-center">Cargando...</div>
   }
 
   if (!form) {
-    return <div className="bg-base-950 text-ink min-h-screen flex items-center justify-center">Taller no encontrado.</div>
+    return <div className="portal-shell bg-base-950 text-ink min-h-screen flex items-center justify-center">Taller no encontrado.</div>
   }
 
   return (
-    <div className="bg-base-950 text-ink min-h-screen flex items-center justify-center px-6 py-12">
+    <div className="portal-shell bg-base-950 text-ink min-h-screen flex items-center justify-center px-6 py-12">
       <div className="w-full max-w-lg">
         <Link to="/super-admin" className="flex items-center gap-2 text-muted hover:text-ink text-sm mb-6 transition-colors">
           <ArrowLeft className="w-4 h-4" />

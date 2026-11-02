@@ -40,11 +40,11 @@ function Sidebar({ className = '' }) {
   }
 
   return (
-    <aside className={`w-64 shrink-0 border-r border-slate-200 dark:border-slate-800/60 min-h-screen p-6 hidden lg:flex flex-col bg-white/90 dark:bg-[#0b0f19]/95 backdrop-blur-xl z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-colors duration-300 ${className}`}>
+    <aside className={`w-64 shrink-0 border-r border-slate-200 dark:border-slate-800/60 min-h-screen p-6 hidden lg:flex flex-col bg-white/90 dark:bg-[#101513]/95 backdrop-blur-xl z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-colors duration-300 ${className}`}>
       
       {/* LOGO */}
       <Link to="/" className="flex items-center gap-3 mb-10 pl-2 group">
-        <div className="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center transition-transform group-hover:scale-105">
+        <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 flex items-center justify-center transition-transform group-hover:scale-105">
           <img src={logoIcono} alt="SIGMA" className="h-6 w-auto" />
         </div>
         <span className="font-extrabold text-xl text-slate-800 dark:text-white tracking-tight transition-colors">SIGMA</span>
@@ -57,9 +57,9 @@ function Sidebar({ className = '' }) {
             key={to}
             to={to}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 ${
+              `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                 isActive
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25 font-bold'
+                  ? 'bg-blue-600 text-white shadow-lg shadow-black/20 font-bold'
                   : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200'
               }`
             }
@@ -78,7 +78,7 @@ function Sidebar({ className = '' }) {
           <NavLink
             to="/ordenes-sin-asignar"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 ${
+              `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                 isActive
                   ? 'bg-amber-600 text-white shadow-lg shadow-amber-500/25 font-bold'
                   : 'text-slate-500 dark:text-slate-400 hover:bg-amber-50 dark:hover:bg-amber-500/10 hover:text-amber-700 dark:hover:text-amber-300'
@@ -101,7 +101,7 @@ function Sidebar({ className = '' }) {
         {/* BOTÓN MODO OSCURO */}
         <button
           onClick={toggleTheme}
-          className="w-full flex items-center justify-between px-4 py-3 rounded-2xl text-slate-500 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 hover:text-slate-700 dark:hover:text-slate-200 transition-colors group cursor-pointer"
+          className="w-full flex items-center justify-between px-4 py-3 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 hover:text-slate-700 dark:hover:text-slate-200 transition-colors group cursor-pointer"
         >
           <div className="flex items-center gap-3 text-sm font-semibold">
             {theme === 'dark' ? (
@@ -117,8 +117,8 @@ function Sidebar({ className = '' }) {
           </div>
         </button>
 
-        <div className="flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800 transition-colors">
-          <div className="w-10 h-10 rounded-xl bg-blue-500 text-white font-extrabold flex items-center justify-center text-sm shadow-md shadow-blue-500/20 shrink-0">
+        <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800 transition-colors">
+          <div className="w-10 h-10 rounded-xl bg-blue-500 text-white font-extrabold flex items-center justify-center text-sm shadow-md shadow-black/20 shrink-0">
             {username.slice(0, 2).toUpperCase()}
           </div>
           <div className="text-sm overflow-hidden">
@@ -131,7 +131,7 @@ function Sidebar({ className = '' }) {
         
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors text-sm font-semibold px-4 py-3 rounded-2xl hover:bg-red-50 dark:hover:bg-red-500/10 group cursor-pointer"
+          className="w-full flex items-center gap-3 text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors text-sm font-semibold px-4 py-3 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10 group cursor-pointer"
         >
           <LogOut className="w-5 h-5 text-slate-400 dark:text-slate-500 group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors" />
           Cerrar sesión

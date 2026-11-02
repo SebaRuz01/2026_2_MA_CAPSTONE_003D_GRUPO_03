@@ -135,20 +135,20 @@ function Tecnicos() {
   }
 
   return (
-    <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex font-sans selection:bg-blue-100 dark:selection:bg-blue-900 selection:text-blue-900 dark:selection:text-blue-100 relative overflow-hidden transition-colors duration-300">
+    <div className="portal-shell portal-layout">
       
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-300/20 dark:bg-blue-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0"></div>
       <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-cyan-300/20 dark:bg-cyan-900/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-[80px] pointer-events-none z-0"></div>
 
       <Sidebar className="relative z-10" />
       
-      <main className="flex-1 p-6 lg:p-10 max-w-[1600px] mx-auto w-full relative z-10 overflow-y-auto h-screen">
+      <main className="portal-main">
         
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
           <div>
             <div className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Recursos Humanos</div>
             <div className="flex items-center gap-3">
-              <h1 className="font-extrabold text-3xl text-slate-800 dark:text-white tracking-tight">Equipo Técnico</h1>
+              <h1 className="portal-title">Equipo Técnico</h1>
               {!bloqueado && !cargando && (
                 <span className="text-xs font-bold bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-500/20">
                   {tecnicos.length} {tecnicos.length === 1 ? 'registrado' : 'registrados'} {planTaller === 1 && '(Máx. Plan Profesional: 5)'}
@@ -160,7 +160,7 @@ function Tecnicos() {
           {!bloqueado && esAdmin && (
             <button
               onClick={() => setModalAbierto(true)}
-              className="bg-blue-600 hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20 text-white text-sm font-bold px-6 py-3 rounded-full flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+              className="bg-blue-600 hover:bg-blue-700 transition-all shadow-md shadow-black/20 text-white text-sm font-bold px-6 py-3 rounded-full flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
               <Plus className="w-4 h-4" />
               Agregar técnico
@@ -169,21 +169,21 @@ function Tecnicos() {
         </div>
 
         {cargando && (
-          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-500/20 shadow-sm max-w-sm">
+          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-lg border border-blue-100 dark:border-blue-500/20 shadow-sm max-w-sm">
             <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             Cargando equipo técnico...
           </div>
         )}
 
         {error && (
-          <div className="flex items-center gap-2 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium rounded-2xl px-5 py-4 mb-6 shadow-sm max-w-md">
+          <div className="flex items-center gap-2 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium rounded-lg px-5 py-4 mb-6 shadow-sm max-w-md">
             <AlertCircle className="w-5 h-5 shrink-0" />
             {error}
           </div>
         )}
 
         {bloqueado && (
-          <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-3xl p-10 text-center max-w-lg mx-auto mt-16 shadow-xl">
+          <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-xl p-10 text-center max-w-lg mx-auto mt-16 shadow-xl">
             <div className="w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mx-auto mb-6 shadow-inner">
               <Lock className="w-8 h-8 text-slate-400 dark:text-slate-500" />
             </div>
@@ -197,7 +197,7 @@ function Tecnicos() {
         {!cargando && !bloqueado && !error && (
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
             {tecnicos.length === 0 && (
-              <div className="md:col-span-2 xl:col-span-3 text-center py-20 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl">
+              <div className="md:col-span-2 xl:col-span-3 text-center py-20 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
                 <Wrench className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
                 <p className="text-slate-600 dark:text-slate-300 font-bold text-base">No hay técnicos registrados todavía</p>
                 <p className="text-slate-400 dark:text-slate-500 text-xs mt-1 mb-4">Comienza agregando al primer especialista al equipo de trabajo.</p>
@@ -215,7 +215,7 @@ function Tecnicos() {
               return (
                 <div 
                   key={t.id} 
-                  className={`bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border rounded-3xl p-6 transition-all group flex flex-col justify-between relative overflow-hidden ${
+                  className={`bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border rounded-xl p-6 transition-all group flex flex-col justify-between relative overflow-hidden ${
                     estaBloqueadoPorPlan 
                       ? 'border-amber-400/60 dark:border-amber-500/40 bg-amber-50/40 dark:bg-amber-950/20 shadow-sm' 
                       : 'border-slate-200/80 dark:border-slate-800/80 shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-500/50'
@@ -232,7 +232,7 @@ function Tecnicos() {
                     <div>
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center gap-4">
-                          <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white flex items-center justify-center font-black text-xl shadow-md shadow-blue-500/20 ${estaBloqueadoPorPlan ? 'grayscale opacity-65' : ''}`}>
+                          <div className={`w-14 h-14 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 text-white flex items-center justify-center font-black text-xl shadow-md shadow-black/20 ${estaBloqueadoPorPlan ? 'grayscale opacity-65' : ''}`}>
                             {t.nombre?.slice(0, 1).toUpperCase()}{t.apellido?.slice(0, 1).toUpperCase()}
                           </div>
                           <div>
@@ -268,7 +268,7 @@ function Tecnicos() {
                     </div>
 
                     {estaBloqueadoPorPlan ? (
-                      <div className="mt-2 bg-amber-100/80 dark:bg-amber-500/15 border border-amber-200 dark:border-amber-500/30 p-4 rounded-2xl text-center space-y-3">
+                      <div className="mt-2 bg-amber-100/80 dark:bg-amber-500/15 border border-amber-200 dark:border-amber-500/30 p-4 rounded-lg text-center space-y-3">
                         <div className="flex items-center justify-center gap-1.5 text-xs font-extrabold text-amber-800 dark:text-amber-400">
                           <Lock className="w-4 h-4" /> Técnico inactivo por cambio de plan
                         </div>
@@ -325,7 +325,7 @@ function Tecnicos() {
         {/* MODAL NUEVO TÉCNICO: Protegido */}
         {modalAbierto && esAdmin && (
           <div className="fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center px-4 z-50">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-[500px] p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl w-full max-w-[500px] p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="font-extrabold text-xl text-slate-800 dark:text-white">Agregar nuevo técnico</h2>
@@ -346,7 +346,7 @@ function Tecnicos() {
                       onChange={handleChange}
                       placeholder="Ej. Carlos"
                       required
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                   <div>
@@ -356,7 +356,7 @@ function Tecnicos() {
                       value={form.apellido}
                       onChange={handleChange}
                       placeholder="Ej. Santana"
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                 </div>
@@ -371,7 +371,7 @@ function Tecnicos() {
                       onChange={handleChange}
                       placeholder="carlos@taller.cl"
                       required
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                   <div>
@@ -382,7 +382,7 @@ function Tecnicos() {
                       onChange={handleChange}
                       placeholder="+56912345678"
                       required
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                 </div>
@@ -396,7 +396,7 @@ function Tecnicos() {
                       onChange={handleChange}
                       placeholder="csantana"
                       required
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                   <div>
@@ -409,7 +409,7 @@ function Tecnicos() {
                       placeholder="••••••••"
                       required
                       minLength={8}
-                      className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                      className="portal-input"
                     />
                   </div>
                 </div>
@@ -421,7 +421,7 @@ function Tecnicos() {
                     value={form.especialidad}
                     onChange={handleChange}
                     placeholder="Ej. Motor y frenos"
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 font-medium transition-colors"
+                    className="portal-input"
                   />
                 </div>
 
@@ -436,7 +436,7 @@ function Tecnicos() {
                   <button
                     type="submit"
                     disabled={guardando}
-                    className="w-full bg-blue-600 hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/20 text-white font-bold py-3.5 rounded-xl disabled:opacity-60 text-sm cursor-pointer"
+                    className="portal-btn portal-btn-primary w-full"
                   >
                     {guardando ? 'Guardando...' : 'Crear técnico'}
                   </button>
@@ -448,7 +448,7 @@ function Tecnicos() {
 
         {tecnicoAEliminar && esAdmin && (
           <div className="fixed inset-0 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-sm flex items-center justify-center px-4 z-50">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-sm p-8 shadow-2xl text-center transition-colors">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl w-full max-w-sm p-8 shadow-2xl text-center transition-colors">
               <div className="w-16 h-16 rounded-full bg-red-50 dark:bg-red-500/10 border-8 border-red-50 dark:border-red-500/10 flex items-center justify-center mx-auto mb-5 transition-colors">
                 <Trash2 className="w-8 h-8 text-red-500 dark:text-red-400" />
               </div>
@@ -485,3 +485,6 @@ function Tecnicos() {
 }
 
 export default Tecnicos
+
+
+

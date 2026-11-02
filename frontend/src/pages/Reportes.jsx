@@ -74,7 +74,7 @@ function Reportes() {
   }
 
   return (
-    <div className="bg-[#f4f7fb] dark:bg-[#0b0f19] text-slate-900 dark:text-slate-100 min-h-screen flex font-sans selection:bg-blue-100 dark:selection:bg-blue-900 selection:text-blue-900 dark:selection:text-blue-100 relative overflow-hidden transition-colors duration-300">
+    <div className="portal-shell portal-layout">
       
       {/* Estilos CSS exclusivos para que al imprimir/generar PDF se vea limpio y sin menú */}
       <style>{`
@@ -98,7 +98,7 @@ function Reportes() {
           .print-header {
             display: block !important;
             margin-bottom: 20px;
-            border-bottom: 2px solid #cbd5e1;
+            border-bottom: 2px solid #c9cdc8;
             padding-bottom: 10px;
           }
         }
@@ -113,7 +113,7 @@ function Reportes() {
 
       <Sidebar className="relative z-10 no-print" />
 
-      <main className="flex-1 p-6 lg:p-10 max-w-[1600px] mx-auto w-full relative z-10 overflow-y-auto h-screen">
+      <main className="portal-main">
         
         {/* Cabecera visible solo al imprimir */}
         <div className="print-header">
@@ -125,13 +125,13 @@ function Reportes() {
         <div className="flex items-center justify-between mb-8 flex-wrap gap-4 no-print">
           <div>
             <div className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Análisis y Rendimiento</div>
-            <h1 className="font-extrabold text-3xl text-slate-800 dark:text-white tracking-tight">Reportes Generales</h1>
+            <h1 className="portal-title">Reportes Generales</h1>
           </div>
           
           {!bloqueado && !cargando && planTaller > 1 && (
             <button
               onClick={imprimirReporte}
-              className="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 transition-all text-sm font-bold px-5 py-3 rounded-2xl flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+              className="bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 transition-all text-sm font-bold px-5 py-3 rounded-lg flex items-center justify-center gap-2 shadow-sm cursor-pointer"
             >
               <Printer className="w-4 h-4 text-slate-400" />
               Imprimir / Exportar PDF (Plan Empresas)
@@ -140,21 +140,21 @@ function Reportes() {
         </div>
 
         {cargando && (
-          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-500/20 shadow-sm max-w-sm no-print">
+          <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400 text-sm font-medium mb-6 bg-blue-50 dark:bg-blue-500/10 p-4 rounded-lg border border-blue-100 dark:border-blue-500/20 shadow-sm max-w-sm no-print">
             <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             Cargando reportes y analítica...
           </div>
         )}
 
         {error && (
-          <div className="flex items-center gap-2 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium rounded-2xl px-5 py-4 mb-6 shadow-sm max-w-md no-print">
+          <div className="flex items-center gap-2 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium rounded-lg px-5 py-4 mb-6 shadow-sm max-w-md no-print">
             <AlertTriangle className="w-5 h-5 shrink-0" />
             {error}
           </div>
         )}
 
         {bloqueado && (
-          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-[2rem] p-10 text-center max-w-lg mx-auto mt-16 shadow-2xl no-print">
+          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-xl p-10 text-center max-w-lg mx-auto mt-16 shadow-2xl no-print">
             <div className="w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center mx-auto mb-6 shadow-inner">
               <Lock className="w-8 h-8 text-slate-400 dark:text-slate-500" />
             </div>
@@ -170,20 +170,20 @@ function Reportes() {
             {/* KPIs / Tarjetas Superiores */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-colors">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-colors">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Total de órdenes</span>
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                     <Layers className="w-6 h-6" />
                   </div>
                 </div>
                 <div className="font-black text-3xl text-slate-800 dark:text-white">{ordenes.length}</div>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-colors">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-colors">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">En reparación</span>
-                  <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
                     <Wrench className="w-6 h-6" />
                   </div>
                 </div>
@@ -192,10 +192,10 @@ function Reportes() {
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-colors">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-colors">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Listas para retiro</span>
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
                     <PackageCheck className="w-6 h-6" />
                   </div>
                 </div>
@@ -204,10 +204,10 @@ function Reportes() {
                 </div>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-colors">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl p-6 shadow-[0_4px_20px_rgb(0,0,0,0.02)] transition-colors">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Stock crítico</span>
-                  <div className="w-12 h-12 rounded-2xl bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-lg bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-center">
                     <AlertTriangle className="w-6 h-6" />
                   </div>
                 </div>
@@ -222,7 +222,7 @@ function Reportes() {
             <div className="grid lg:grid-cols-2 gap-6">
               
               {/* Órdenes por estado */}
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] p-6 shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl p-6 shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors">
                 <div className="flex items-center gap-2 mb-6">
                   <BarChart3 className="w-5 h-5 text-blue-500" />
                   <h2 className="font-extrabold text-lg text-slate-800 dark:text-white">Órdenes por estado</h2>
@@ -233,7 +233,7 @@ function Reportes() {
                     <p className="text-slate-400 dark:text-slate-500 text-xs text-center py-10 font-medium">Aún no hay órdenes registradas en el taller.</p>
                   )}
                   {Object.entries(conteoPorEstado).map(([estado, cantidad]) => (
-                    <div key={estado} className="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80">
+                    <div key={estado} className="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-lg border border-slate-100 dark:border-slate-800/80">
                       <div className="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
                         <span className="capitalize">{estado.replace('_', ' ')}</span>
                         <span className="text-blue-600 dark:text-blue-400">{cantidad} orden(es)</span>
@@ -250,7 +250,7 @@ function Reportes() {
               </div>
 
               {/* Carga por técnico */}
-              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-[2rem] p-6 shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors">
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-xl p-6 shadow-[0_4px_30px_rgb(0,0,0,0.03)] transition-colors">
                 <div className="flex items-center gap-2 mb-6">
                   <Wrench className="w-5 h-5 text-teal-500" />
                   <h2 className="font-extrabold text-lg text-slate-800 dark:text-white">Carga de trabajo por técnico</h2>
@@ -261,7 +261,7 @@ function Reportes() {
                     <p className="text-slate-400 dark:text-slate-500 text-xs text-center py-10 font-medium">Aún no hay órdenes asignadas a técnicos.</p>
                   )}
                   {Object.entries(porTecnico).map(([nombre, cantidad]) => (
-                    <div key={nombre} className="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80">
+                    <div key={nombre} className="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-lg border border-slate-100 dark:border-slate-800/80">
                       <div className="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
                         <span>{nombre}</span>
                         <span className="text-teal-600 dark:text-teal-400">{cantidad} asignada(s)</span>
@@ -286,3 +286,5 @@ function Reportes() {
 }
 
 export default Reportes
+
+

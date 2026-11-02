@@ -1,21 +1,120 @@
 @import "tailwindcss";
 
-/* Activa el modo oscuro manual basado en la clase .dark inyectada por React */
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-base-950: #0A0F1C;
-  --color-base-900: #0F1626;
-  --color-base-850: #131B2E;
-  --color-base-800: #1A2436;
-  --color-base-700: #28334A;
-  --color-ink: #E4E9F2;
-  --color-muted: #8B94A8;
-  --color-brand: #3B82F6;
-  --color-brand-dark: #2563EB;
-  --color-brand-light: #0F2A4A;
-  --color-success: #22C55E;
-
+  --color-slate-50: #f3f2ee;
+  --color-slate-100: #e4e2dc;
+  --color-slate-200: #c9cdc8;
+  --color-slate-300: #adb3ae;
+  --color-slate-400: #8e9691;
+  --color-slate-500: #727a75;
+  --color-slate-600: #59605c;
+  --color-slate-700: #414642;
+  --color-slate-800: #2f3331;
+  --color-slate-900: #202522;
+  --color-slate-950: #101513;
+  --color-blue-50: #edf3f1;
+  --color-blue-100: #d5e2de;
+  --color-blue-200: #b8cec8;
+  --color-blue-300: #97b6ae;
+  --color-blue-400: #789f95;
+  --color-blue-500: #6e9d91;
+  --color-blue-600: #5f8b80;
+  --color-blue-700: #4e746c;
+  --color-blue-800: #3f5e58;
+  --color-blue-900: #314944;
+  --color-blue-950: #1d2c29;
+  --color-teal-50: #edf3f1;
+  --color-teal-100: #d5e2de;
+  --color-teal-200: #b8cec8;
+  --color-teal-300: #97b6ae;
+  --color-teal-400: #789f95;
+  --color-teal-500: #6e9d91;
+  --color-teal-600: #5f8b80;
+  --color-teal-700: #4e746c;
+  --color-teal-800: #3f5e58;
+  --color-teal-900: #314944;
+  --color-cyan-300: #97b6ae;
+  --color-cyan-400: #789f95;
+  --color-cyan-500: #6e9d91;
+  --color-cyan-600: #5f8b80;
+  --color-cyan-900: #314944;
+  --color-amber-50: #f4eee9;
+  --color-amber-100: #e8d9cc;
+  --color-amber-200: #d9bda7;
+  --color-amber-300: #c99d7a;
+  --color-amber-400: #b98961;
+  --color-amber-500: #b17a52;
+  --color-amber-600: #956442;
+  --color-amber-700: #76503a;
+  --color-amber-800: #5c4031;
+  --color-amber-900: #49342a;
+  --color-emerald-50: #eef2ed;
+  --color-emerald-100: #dce6db;
+  --color-emerald-400: #8dab8f;
+  --color-emerald-500: #789b7d;
+  --color-emerald-600: #66836a;
+  --color-emerald-700: #536b57;
+  --color-green-100: #dce6db;
+  --color-green-400: #8dab8f;
+  --color-green-500: #789b7d;
+  --color-green-600: #66836a;
+  --color-red-50: #f5eeec;
+  --color-red-100: #ead8d3;
+  --color-red-400: #bf8176;
+  --color-red-500: #aa6b61;
+  --color-red-600: #90564e;
+  --color-red-700: #74443f;
+  --color-rose-400: #bf8176;
+  --color-rose-500: #aa6b61;
+  --color-white: #e7e3da;
+  --color-black: #0b0f0d;
+  --color-base-950: #101513;
+  --color-base-900: #202522;
+  --color-base-850: #282d2a;
+  --color-base-800: #2f3331;
+  --color-base-700: #414642;
+  --color-ink: #e7e3da;
+  --color-muted: #a3aaa5;
+  --color-brand: #6e9d91;
+  --color-brand-dark: #4e746c;
+  --color-brand-light: #314944;
+  --color-success: #789b7d;
+  --color-copper: #b17a52;
   --font-display: "Sora", sans-serif;
   --font-body: "Inter", sans-serif;
 }
+
+:root { color: #e7e3da; background: #101513; font-synthesis: none; text-rendering: optimizeLegibility; }
+html { background: #101513; }
+body { margin: 0; min-width: 320px; background: #101513; color: #e7e3da; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: rgba(110, 157, 145, .32); color: #e7e3da; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #161b18; }
+::-webkit-scrollbar-thumb { border: 2px solid #161b18; border-radius: 8px; background: #414642; }
+::-webkit-scrollbar-thumb:hover { background: #59605c; }
+.dark body { background-image: radial-gradient(circle at 85% 5%, rgba(110,157,145,.07), transparent 24%), linear-gradient(#101513, #101513); }
+
+.portal-shell {
+  position: relative;
+  isolation: isolate;
+  background-image:
+    radial-gradient(circle at 88% 8%, rgba(110,157,145,.12), transparent 25%),
+    linear-gradient(rgba(108,113,109,.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,113,109,.055) 1px, transparent 1px);
+  background-size: auto, 52px 52px, 52px 52px;
+}
+.dark .portal-shell {
+  background-image:
+    radial-gradient(circle at 86% 7%, rgba(110,157,145,.09), transparent 27%),
+    radial-gradient(circle at 8% 92%, rgba(177,122,82,.05), transparent 24%),
+    linear-gradient(rgba(108,113,109,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,113,109,.035) 1px, transparent 1px);
+  background-size: auto, auto, 56px 56px, 56px 56px;
+}
+.portal-shell main { position: relative; z-index: 1; }
+.portal-shell :is(input, select, textarea):focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(110,157,145,.12); }
+.portal-shell :is(button, a):focus-visible { outline: 2px solid #6e9d91; outline-offset: 2px; }

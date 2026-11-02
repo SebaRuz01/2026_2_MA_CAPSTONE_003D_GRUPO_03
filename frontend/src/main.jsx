@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
+import './styles/portal.css'
 
 // IMPORTAR EL THEME PROVIDER
 import { ThemeProvider } from './context/ThemeContext.jsx'
