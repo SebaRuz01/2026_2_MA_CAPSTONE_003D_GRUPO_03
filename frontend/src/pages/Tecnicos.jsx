@@ -256,13 +256,13 @@ function Tecnicos() {
                       </div>
 
                       <div className={`space-y-1.5 text-xs text-slate-500 dark:text-slate-400 mb-4 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800 ${estaBloqueadoPorPlan ? 'opacity-65' : ''}`}>
-                        <div className="flex items-center gap-2">
-                          <Mail className="w-3.5 h-3.5 text-slate-400" />
-                          <span className="truncate">{t.email || 'Sin correo registrado'}</span>
+                        <div className="flex items-center gap-2 overflow-hidden">
+                          <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <span className="truncate block w-full" title={t.email || ''}>{t.email || 'Sin correo registrado'}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Phone className="w-3.5 h-3.5 text-slate-400" />
-                          <span>{t.telefono || 'Sin teléfono registrado'}</span>
+                        <div className="flex items-center gap-2 overflow-hidden">
+                          <Phone className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <span className="truncate block w-full" title={t.telefono || ''}>{t.telefono || 'Sin teléfono registrado'}</span>
                         </div>
                       </div>
                     </div>

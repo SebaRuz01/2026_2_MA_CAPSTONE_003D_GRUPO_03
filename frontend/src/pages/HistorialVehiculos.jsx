@@ -32,7 +32,15 @@ function HistorialVehiculos() {
     const cliente = o.cliente_nombre?.toLowerCase() || ''
     const codigo = `ot-${o.id}`.toLowerCase()
     return patente.includes(texto) || modelo.includes(texto) || cliente.includes(texto) || codigo.includes(texto)
-  }).sort((a, b) => b.id - a.id) // <-- ORDENAMIENTO: De la más reciente a la más antigua
+  }).sort((a, b) => {
+    // Ordenar por fecha de entrega (más reciente primero)
+    const fechaA = a.fecha_entrega ? new Date(a.fecha_entrega).getTime() : 0
+    const fechaB = b.fecha_entrega ? new Date(b.fecha_entrega).getTime() : 0
+    if (fechaA !== fechaB) {
+      return fechaB - fechaA
+    }
+    return b.id - a.id
+  })
 
   const exportarCSV = () => {
     if (ordenesEntregadas.length === 0) return
